@@ -1,0 +1,138 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon *ngIf="isFavorite()" name="star" class="header-star"></ion-icon>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" (click)="goToHome()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Otherworldly Steed
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Otherworldly Steed</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <div class="spell-info">
+      <p>Source: Player's Handbook (2024)</p>
+      <p><i>2nd level Conjuration</i></p>
+    </div>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedLevel" (ionChange)="onLevelChange(selectedLevel)" interface="popover">
+        <ion-select-option *ngFor="let level of levels" [value]="level">Level {{ level }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedType" (ionChange)="onTypeChange(selectedType)" interface="popover">
+        <ion-select-option *ngFor="let type of types" [value]="type">{{ type }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="hp-tracker" (click)="openHPModal()">
+      <div class="hp-bar-container">
+        <div
+          class="hp-bar"
+          [class.hp-warning]="getHPPercentage() <= 50 && getHPPercentage() > 25"
+          [class.hp-danger]="getHPPercentage() <= 25"
+          [style.width.%]="getHPPercentage()"></div>
+        <span class="hp-text">{{ currentHP }} / {{ maxHP }}</span>
+      </div>
+    </div>
+
+    <div class="stats-table" *ngIf="stats">
+      <table class="table">
+        <thead>
+          <tr class="table-primary table-active">
+            <th colspan="6">Otherworldly Steed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6"><em>Large {{ selectedType.toLowerCase() }}</em></td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Armor Class:</strong> {{ stats.ac }} (natural armor)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Hit Points:</strong> {{ stats.hp }}</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Speed:</strong> {{ stats.speed }}</td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>STR</th>
+            <th>DEX</th>
+            <th>CON</th>
+          </tr>
+          <tr class="stat-row">
+            <td>18 (+4)</td>
+            <td>12 (+1)</td>
+            <td>14 (+2)</td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>INT</th>
+            <th>WIS</th>
+            <th>CHA</th>
+          </tr>
+          <tr class="stat-row">
+            <td>6 (−2)</td>
+            <td>12 (+1)</td>
+            <td>8 (−1)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Senses:</strong> Passive Perception 11</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Languages:</strong> Telepathy 1 mile (works only with you)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Challenge:</strong> None</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Proficiency Bonus:</strong> equals your bonus</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Life Bond. </em></strong>When you regain Hit Points from a level 1+ spell, the steed regains the same number of Hit Points if you’re within 5 feet of it.</td>
+          </tr>
+          <tr class="table-primary table-active">
+            <th colspan="6">Actions</th>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Otherworldly Slam. </em></strong><em>Melee Attack Roll:</em> Bonus equals your spell attack modifier, reach 5 ft. <em>Hit:</em> {{ stats.slamDamage }} damage.</td>
+          </tr>
+          <tr class="table-primary table-active">
+            <th colspan="6">Bonus Actions</th>
+          </tr>
+          <tr *ngIf="isTypeActive('Celestial')">
+            <td colspan="6"><strong><em>Healing Touch (Recharges after a Long Rest). </em></strong>One creature within 5 feet of the steed regains a number of Hit Points equal to 2d8 + {{ selectedLevel }}.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Fey')">
+            <td colspan="6"><strong><em>Fey Step (Recharges after a Long Rest). </em></strong>The steed teleports, along with its rider, to an unoccupied space of your choice up to 60 feet away from itself.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Fiend')">
+            <td colspan="6"><strong><em>Fell Glare (Recharges after a Long Rest). </em></strong><em>Wisdom Saving Throw:</em> DC equals your spell save DC, one creature within 60 feet the steed can see. <em>Failure:</em> The target has the Frightened condition until the end of your next turn.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-hp-modal
+      [isOpen]="isHPModalOpen"
+      [currentHP]="currentHP"
+      [maxHP]="maxHP"
+      (close)="closeHPModal()"
+      (heal)="onHeal($event)"
+      (damage)="onDamage($event)">
+    </app-hp-modal>
+  </div>
+</ion-content>

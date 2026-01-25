@@ -1,0 +1,137 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon *ngIf="isFavorite()" name="star" class="header-star"></ion-icon>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" (click)="goToHome()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Summon Fey
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Summon Fey</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <div class="spell-info">
+      <p>Source: Player's Handbook (2024)</p>
+      <p><i>3rd level Conjuration</i></p>
+    </div>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedLevel" (ionChange)="onLevelChange(selectedLevel)" interface="popover">
+        <ion-select-option *ngFor="let level of levels" [value]="level">Level {{ level }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedType" (ionChange)="onTypeChange(selectedType)" interface="popover">
+        <ion-select-option *ngFor="let type of types" [value]="type">{{ type }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="hp-tracker" (click)="openHPModal()">
+      <div class="hp-bar-container">
+        <div
+          class="hp-bar"
+          [class.hp-warning]="getHPPercentage() <= 50 && getHPPercentage() > 25"
+          [class.hp-danger]="getHPPercentage() <= 25"
+          [style.width.%]="getHPPercentage()"></div>
+        <span class="hp-text">{{ currentHP }} / {{ maxHP }}</span>
+      </div>
+    </div>
+
+    <div class="stats-table" *ngIf="stats">
+      <table class="table">
+        <thead>
+          <tr class="table-primary table-active">
+            <th colspan="6">Fey Spirit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6"><em>Small fey, neutral</em></td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Armor Class:</strong> {{ stats.ac }} (natural armor)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Hit Points:</strong> {{ stats.hp }}</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Speed:</strong> 30 ft., fly 30 ft.</td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>STR</th>
+            <th>DEX</th>
+            <th>CON</th>
+          </tr>
+          <tr class="stat-row">
+            <td>13 (+1)</td>
+            <td>16 (+3)</td>
+            <td>14 (+2)</td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>INT</th>
+            <th>WIS</th>
+            <th>CHA</th>
+          </tr>
+          <tr class="stat-row">
+            <td>14 (+2)</td>
+            <td>11 (+0)</td>
+            <td>16 (+3)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Condition Immunities:</strong> charmed</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Senses:</strong> darkvision 60 ft., passive Perception 10</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Languages:</strong> Sylvan, understands the languages you know</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Challenge:</strong> —</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Proficiency Bonus:</strong> equals your bonus</td>
+          </tr>
+          <tr class="table-primary table-active">
+            <th colspan="6">Actions</th>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Multiattack. </em></strong>The spirit makes {{ stats.multiattackCount }} Fey Blade attacks.</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Fey Blade. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft., one target. <em>Hit:</em> {{ stats.feyBladeDamage }} force damage.</td>
+          </tr>
+          <tr class="table-primary table-active">
+            <th colspan="6">Bonus Actions</th>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <strong><em>Fey Step. </em></strong>The spirit magically teleports up to 30 feet to an unoccupied space it can see. <span *ngIf="isTypeActive('Fuming')">The spirit has advantage on the next attack roll it makes before the end of this turn.</span><span *ngIf="isTypeActive('Mirthful')"><em>Wisdom Saving Throw:</em> DC equals your spell save DC, one creature the spirit can see within 10 feet of itself. <em>Failure:</em> The target is charmed by you and the spirit for 1 minute or until the target takes any damage.</span><span *ngIf="isTypeActive('Tricksy')">The spirit fills a 10-foot cube within 5 feet of it with magical darkness, which lasts until the end of its next turn.</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-hp-modal
+      [isOpen]="isHPModalOpen"
+      [currentHP]="currentHP"
+      [maxHP]="maxHP"
+      (close)="closeHPModal()"
+      (heal)="onHeal($event)"
+      (damage)="onDamage($event)">
+    </app-hp-modal>
+  </div>
+</ion-content>

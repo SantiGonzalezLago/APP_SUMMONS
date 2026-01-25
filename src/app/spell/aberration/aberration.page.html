@@ -1,0 +1,142 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon *ngIf="isFavorite()" name="star" class="header-star"></ion-icon>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" (click)="goToHome()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Summon Aberration
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Summon Aberration</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <div class="spell-info">
+      <p>Source: Player's Handbook (2024)</p>
+      <p><i>4th level Conjuration</i></p>
+    </div>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedLevel" (ionChange)="onLevelChange(selectedLevel)" interface="popover">
+        <ion-select-option *ngFor="let level of levels" [value]="level">Level {{ level }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedType" (ionChange)="onTypeChange(selectedType)" interface="popover">
+        <ion-select-option *ngFor="let type of types" [value]="type">{{ type }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div class="hp-tracker" (click)="openHPModal()">
+      <div class="hp-bar-container">
+        <div
+          class="hp-bar"
+          [class.hp-warning]="getHPPercentage() <= 50 && getHPPercentage() > 25"
+          [class.hp-danger]="getHPPercentage() <= 25"
+          [style.width.%]="getHPPercentage()"></div>
+        <span class="hp-text">{{ currentHP }} / {{ maxHP }}</span>
+      </div>
+    </div>
+    <div class="stats-table" *ngIf="stats">
+      <table class="table">
+        <thead>
+          <tr class="table-primary table-active">
+            <th colspan="6">Aberrant Spirit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6"><em>Medium aberration</em></td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Armor Class:</strong> {{ stats.ac }} (natural armor)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Hit Points:</strong> {{ stats.hp }}</td>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <strong>Speed:</strong> 30 ft.
+              <span *ngIf="isTypeActive('Beholderkin')">, fly 30 ft. (hover)</span>
+            </td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>STR</th>
+            <th>DEX</th>
+            <th>CON</th>
+          </tr>
+          <tr class="stat-row">
+            <td>16 (+3)</td>
+            <td>10 (+0)</td>
+            <td>15 (+2)</td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>INT</th>
+            <th>WIS</th>
+            <th>CHA</th>
+          </tr>
+          <tr class="stat-row">
+            <td>16 (+3)</td>
+            <td>10 (+0)</td>
+            <td>6 (-2)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Damage Immunities:</strong> psychic</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Senses:</strong> darkvision 60 ft., passive Perception 10</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Languages:</strong> Deep Speech, understands the languages you speak</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Challenge:</strong> —</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Proficiency Bonus:</strong> equals your bonus</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Slaad')">
+            <td colspan="6"><strong><em>Regeneration.</em></strong> The aberration regains 5 hit points at the start of its turn if it has at least 1 hit point.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Mind Flayer')">
+            <td colspan="6"><strong><em>Whispering Aura.</em></strong> At the start of each of the spirit's turns, the spirit emits psionic energy if it doesn't have the Incapacitated condition. Wisdom Saving Throw: DC equals your spell save DC, each creature (other than you) within 5 feet of the spirit. Failure: 2d6 Psychic damage.</td>
+          </tr>
+          <tr class="table-primary table-active">
+            <th colspan="6">Actions</th>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Multiattack. </em></strong>The aberration makes {{ stats.multiattackCount }} attacks.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Slaad')">
+            <td colspan="6"><strong><em>Claws .</em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft., one target. <em>Hit:</em> {{ stats.clawDamage }} slashing damage. If the target is a creature, it can't regain hit points until the start of the aberration's next turn.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Beholderkin')">
+            <td colspan="6"><strong><em>Eye Ray. </em></strong><em>Ranged Spell Attack:</em> your spell attack modifier to hit, range 150 ft., one creature. <em>Hit:</em> {{ stats.eyeRayDamage }} psychic damage.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Mind Flayer')">
+            <td colspan="6"><strong><em>Psychic Slam. </em></strong><em>Melee Spell Attack:</em> your spell attack modifier to hit, reach 5 ft., one creature. <em>Hit:</em> {{ stats.psychicSlamDamage }} psychic damage</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-hp-modal
+      [isOpen]="isHPModalOpen"
+      [currentHP]="currentHP"
+      [maxHP]="maxHP"
+      (close)="closeHPModal()"
+      (heal)="onHeal($event)"
+      (damage)="onDamage($event)">
+    </app-hp-modal>
+  </div>
+</ion-content>

@@ -1,0 +1,146 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon *ngIf="isFavorite()" name="star" class="header-star"></ion-icon>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" (click)="goToHome()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Summon Undead
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Summon Undead</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <div class="spell-info">
+      <p>Source: Player's Handbook (2024)</p>
+      <p><i>3rd level Necromancy</i></p>
+    </div>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedLevel" (ionChange)="onLevelChange(selectedLevel)" interface="popover">
+        <ion-select-option *ngFor="let level of levels" [value]="level">Level {{ level }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedType" (ionChange)="onTypeChange(selectedType)" interface="popover">
+        <ion-select-option *ngFor="let type of types" [value]="type">{{ type }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="hp-tracker" (click)="openHPModal()">
+      <div class="hp-bar-container">
+        <div
+          class="hp-bar"
+          [class.hp-warning]="getHPPercentage() <= 50 && getHPPercentage() > 25"
+          [class.hp-danger]="getHPPercentage() <= 25"
+          [style.width.%]="getHPPercentage()"></div>
+        <span class="hp-text">{{ currentHP }} / {{ maxHP }}</span>
+      </div>
+    </div>
+
+    <div class="stats-table" *ngIf="stats">
+      <table class="table">
+        <thead>
+          <tr class="table-primary table-active">
+            <th colspan="6">Undead Spirit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6"><em>Medium undead</em></td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Armor Class:</strong> {{ stats.ac }}</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Hit Points:</strong> {{ stats.hp }}</td>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <strong>Speed:</strong> 30 ft.<span *ngIf="isTypeActive('Ghostly')">, fly 40 ft. (hover)</span>
+            </td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>STR</th>
+            <th>DEX</th>
+            <th>CON</th>
+          </tr>
+          <tr class="stat-row">
+            <td>12 (+1)</td>
+            <td>16 (+3)</td>
+            <td>15 (+2)</td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>INT</th>
+            <th>WIS</th>
+            <th>CHA</th>
+          </tr>
+          <tr class="stat-row">
+            <td>4 (-3)</td>
+            <td>10 (+0)</td>
+            <td>9 (-1)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Damage Immunities:</strong> necrotic, poison</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Condition Immunities:</strong> exhaustion, frightened, paralyzed, poisoned</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Senses:</strong> darkvision 60 ft., passive Perception 10</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Languages:</strong> understands the languages you speak</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Challenge:</strong> —</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Proficiency Bonus:</strong> equals your bonus</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Putrid')">
+            <td colspan="6"><strong><em>Festering Aura. </em></strong><em>Constitution Saving Throw:</em> DC equals your spell save DC, any creature (other than you) that starts its turn within a 5-foot Emanation originating from the spirit. <em>Failure:</em> The creature has the Poisoned condition until the start of its next turn.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Ghostly')">
+            <td colspan="6"><strong><em>Incorporeal Passage. </em></strong>The spirit can move through other creatures and objects as if they were difficult terrain. If it ends its turn inside an object, it is shunted to the nearest unoccupied space and takes 1d10 force damage for every 5 feet traveled.</td>
+          </tr>
+          <tr class="table-primary table-active">
+            <th colspan="6">Actions</th>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Multiattack. </em></strong>The spirit makes a number of attacks equal to half this spell's level (rounded down).</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Ghostly')">
+            <td colspan="6"><strong><em>Deathly Touch. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft., one creature. <em>Hit:</em> {{ stats.deathlyTouchDamage }} damage, and the target has the Frightened condition until the end of its next turn.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Skeletal')">
+            <td colspan="6"><strong><em>Grave Bolt. </em></strong><em>Ranged Spell Attack:</em> your spell attack modifier to hit, range 150 ft., one target. <em>Hit:</em> {{ stats.graveBoltDamage }} damage.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Putrid')">
+            <td colspan="6"><strong><em>Rotting Claw. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft., one target. <em>Hit:</em> {{ stats.rottingClawDamage }} damage. If the target has the Poisoned condition, it has the Paralyzed condition until the end of its next turn.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-hp-modal
+      [isOpen]="isHPModalOpen"
+      [currentHP]="currentHP"
+      [maxHP]="maxHP"
+      (close)="closeHPModal()"
+      (heal)="onHeal($event)"
+      (damage)="onDamage($event)">
+    </app-hp-modal>
+  </div>
+</ion-content>

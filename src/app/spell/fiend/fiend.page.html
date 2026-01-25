@@ -1,0 +1,149 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon *ngIf="isFavorite()" name="star" class="header-star"></ion-icon>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" (click)="goToHome()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Summon Fiend
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Summon Fiend</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <div class="spell-info">
+      <p>Source: Player's Handbook (2024)</p>
+      <p><i>6th level Conjuration</i></p>
+    </div>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedLevel" (ionChange)="onLevelChange(selectedLevel)" interface="popover">
+        <ion-select-option *ngFor="let level of levels" [value]="level">Level {{ level }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedType" (ionChange)="onTypeChange(selectedType)" interface="popover">
+        <ion-select-option *ngFor="let type of types" [value]="type">{{ type }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="hp-tracker" (click)="openHPModal()">
+      <div class="hp-bar-container">
+        <div
+          class="hp-bar"
+          [class.hp-warning]="getHPPercentage() <= 50 && getHPPercentage() > 25"
+          [class.hp-danger]="getHPPercentage() <= 25"
+          [style.width.%]="getHPPercentage()"></div>
+        <span class="hp-text">{{ currentHP }} / {{ maxHP }}</span>
+      </div>
+    </div>
+
+    <div class="stats-table" *ngIf="stats">
+      <table class="table">
+        <thead>
+          <tr class="table-primary table-active">
+            <th colspan="6">Fiendish Spirit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6"><em>Large fiend, neutral</em></td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Armor Class:</strong> {{ stats.ac }} (natural armor)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Hit Points:</strong> {{ stats.hp }}</td>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <strong>Speed:</strong> 40 ft.<span *ngIf="isTypeActive('Demon')">, climb 40 ft.</span><span *ngIf="isTypeActive('Devil')">, fly 60 ft.</span>
+            </td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>STR</th>
+            <th>DEX</th>
+            <th>CON</th>
+          </tr>
+          <tr class="stat-row">
+            <td>13 (+1)</td>
+            <td>16 (+3)</td>
+            <td>15 (+2)</td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>INT</th>
+            <th>WIS</th>
+            <th>CHA</th>
+          </tr>
+          <tr class="stat-row">
+            <td>10 (+0)</td>
+            <td>10 (+0)</td>
+            <td>16 (+3)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Damage Resistances:</strong> fire</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Condition Immunities:</strong> poison, poisoned</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Senses:</strong> darkvision 60 ft., passive Perception 10</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Languages:</strong> Abyssal, Infernal, telepathy 60 ft.</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Challenge:</strong> —</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Proficiency Bonus:</strong> equals your bonus</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Demon')">
+            <td colspan="6"><strong><em>Death Throes. </em></strong>When the spirit drops to 0 hit points or the spell ends, the spirit explodes. <em>Dexterity Saving Throw:</em> DC equals your spell save DC, each creature in a 10-foot emanation originating from the spirit. <em>Failure:</em> {{ stats.deathThroesDamage }} fire damage. <em>Success:</em> Half damage.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Devil')">
+            <td colspan="6"><strong><em>Devil's Sight. </em></strong>Magical darkness doesn't impede the spirit's darkvision.</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Magic Resistance. </em></strong>The spirit has advantage on saving throws against spells and other magical effects.</td>
+          </tr>
+          <tr class="table-primary table-active">
+            <th colspan="6">Actions</th>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Multiattack. </em></strong>The spirit makes {{ stats.multiattackCount }} attacks.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Demon')">
+            <td colspan="6"><strong><em>Bite. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft., one target. <em>Hit:</em> {{ stats.attackDamage }} damage.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Devil')">
+            <td colspan="6"><strong><em>Fiery Strike. </em></strong><em>Melee or Ranged Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft. or range 150 ft., one target. <em>Hit:</em> {{ stats.attackDamage }} damage.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Yugoloth')">
+            <td colspan="6"><strong><em>Claws. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft., one target. <em>Hit:</em> {{ stats.attackDamage }} damage. Immediately after the attack hits or misses, the spirit can teleport up to 30 feet to an unoccupied space it can see.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-hp-modal
+      [isOpen]="isHPModalOpen"
+      [currentHP]="currentHP"
+      [maxHP]="maxHP"
+      (close)="closeHPModal()"
+      (heal)="onHeal($event)"
+      (damage)="onDamage($event)">
+    </app-hp-modal>
+  </div>
+</ion-content>

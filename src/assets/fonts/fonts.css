@@ -1,0 +1,10 @@
+/* MedievalSharp Font - Local */
+@font-face {
+  font-family: 'MedievalSharp';
+  src: url('/assets/fonts/MedievalSharp-Regular.woff2') format('woff2'),
+       url('/assets/fonts/MedievalSharp-Regular.woff') format('woff'),
+       url('/assets/fonts/MedievalSharp-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,0 +1,140 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon *ngIf="isFavorite()" name="star" class="header-star"></ion-icon>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" (click)="goToHome()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Giant Insect
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Giant Insect</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <div class="spell-info">
+      <p>Source: Player's Handbook (2024)</p>
+      <p><i>4th level Conjuration</i></p>
+    </div>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedLevel" (ionChange)="onLevelChange(selectedLevel)" interface="popover">
+        <ion-select-option *ngFor="let level of levels" [value]="level">Level {{ level }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-select [(ngModel)]="selectedType" (ionChange)="onTypeChange(selectedType)" interface="popover">
+        <ion-select-option *ngFor="let type of types" [value]="type">{{ type }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="hp-tracker" (click)="openHPModal()">
+      <div class="hp-bar-container">
+        <div
+          class="hp-bar"
+          [class.hp-warning]="getHPPercentage() <= 50 && getHPPercentage() > 25"
+          [class.hp-danger]="getHPPercentage() <= 25"
+          [style.width.%]="getHPPercentage()"></div>
+        <span class="hp-text">{{ currentHP }} / {{ maxHP }}</span>
+      </div>
+    </div>
+
+    <div class="stats-table" *ngIf="stats">
+      <table class="table">
+        <thead>
+          <tr class="table-primary table-active">
+            <th colspan="6">Giant Insect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6"><em>Large beast, unaligned</em></td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Armor Class:</strong> {{ stats.ac }} (natural armor)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Hit Points:</strong> {{ stats.hp }}</td>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <strong>Speed:</strong> 40 ft., climb 40 ft.<span *ngIf="isTypeActive('Wasp')">, fly 40 ft.</span>
+            </td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>STR</th>
+            <th>DEX</th>
+            <th>CON</th>
+          </tr>
+          <tr class="stat-row">
+            <td>17 (+3)</td>
+            <td>13 (+1)</td>
+            <td>15 (+2)</td>
+          </tr>
+          <tr class="stat-row table-primary table-active">
+            <th>INT</th>
+            <th>WIS</th>
+            <th>CHA</th>
+          </tr>
+          <tr class="stat-row">
+            <td>4 (-3)</td>
+            <td>14 (+2)</td>
+            <td>3 (-4)</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Senses:</strong> darkvision 60 ft., passive Perception 12</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Languages:</strong> understands the languages you know</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Challenge:</strong> —</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong>Proficiency Bonus:</strong> equals your bonus</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Spider Climb. </em></strong>The insect can climb difficult surfaces, including along ceilings, without needing to make an ability check.</td>
+          </tr>
+          <tr class="table-primary table-active">
+            <th colspan="6">Actions</th>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Multiattack. </em></strong>The insect makes {{ stats.multiattackCount }} attacks.</td>
+          </tr>
+          <tr>
+            <td colspan="6"><strong><em>Poison Jab. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 10 ft., one target. <em>Hit:</em> {{ stats.poisonJabDamage }}.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Spider')">
+            <td colspan="6"><strong><em>Web Bolt. </em></strong><em>Ranged Weapon Attack:</em> your spell attack modifier to hit, range 60 ft., one target. <em>Hit:</em> {{ stats.webBoltDamage }} damage, and the target's speed is reduced to 0 until the start of the insect's next turn.</td>
+          </tr>
+          <tr *ngIf="isTypeActive('Centipede')" class="table-primary table-active">
+            <th colspan="6">Bonus Actions</th>
+          </tr>
+          <tr *ngIf="isTypeActive('Centipede')">
+            <td colspan="6"><strong><em>Venomous Spew. </em></strong><em>Constitution Saving Throw:</em> your spell save DC, one creature the insect can see within 10 feet. <em>Failure:</em> The target has the Poisoned condition until the start of the insect's next turn.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-hp-modal
+      [isOpen]="isHPModalOpen"
+      [currentHP]="currentHP"
+      [maxHP]="maxHP"
+      (close)="closeHPModal()"
+      (heal)="onHeal($event)"
+      (damage)="onDamage($event)">
+    </app-hp-modal>
+  </div>
+</ion-content>

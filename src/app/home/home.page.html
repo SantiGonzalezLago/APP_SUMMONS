@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>
-      Blank
+      Summoning Spells Calculator
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +12,27 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Summoning Spells</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="cards-container">
+    <ion-card *ngFor="let spell of spells" (click)="goToSpell(spell.url)" class="spell-card">
+      <ion-card-header>
+        <div class="card-header-content">
+          <i class="fa-solid" [ngClass]="getSpellIcon(spell.id) + ' spell-icon'"></i>
+          <div class="card-title-wrapper">
+            <ion-card-title>{{ spell.name }}</ion-card-title>
+            <ion-badge class="level-badge">{{ spell.level }}{{ spell.level === 1 ? 'st' : spell.level === 2 ? 'nd' : spell.level === 3 ? 'rd' : 'th' }} level spell</ion-badge>
+          </div>
+          <ion-icon
+            [name]="isFavorite(spell.id) ? 'star' : 'star-outline'"
+            [class.is-favorite]="isFavorite(spell.id)"
+            (click)="toggleFavorite($event, spell.id)"
+            class="favorite-icon">
+          </ion-icon>
+        </div>
+      </ion-card-header>
+    </ion-card>
   </div>
 </ion-content>

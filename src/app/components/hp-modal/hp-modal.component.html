@@ -1,0 +1,34 @@
+<ion-modal
+  #modal
+  [isOpen]="isOpen"
+  (didDismiss)="closeModal()"
+  cssClass="modal-auto-height">
+  <ng-template>
+    <div class="hp-modal">
+      <div class="hp-modal-content">
+        <ion-button expand="block" color="success" (click)="applyHeal()">
+          HEAL
+        </ion-button>
+
+        <div class="input-container">
+          <ion-button fill="outline" (click)="decreaseAmount()">-</ion-button>
+          <ion-item lines="none" class="input-item">
+            <ion-input
+              type="number"
+              [(ngModel)]="hpChangeAmount"
+              placeholder="0"
+              min="0">
+            </ion-input>
+          </ion-item>
+          <ion-button fill="outline" (click)="increaseAmount()">+</ion-button>
+        </div>
+
+        <div class="modal-buttons">
+          <ion-button expand="block" color="danger" (click)="applyDamage()">
+            DAMAGE
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>
