@@ -32,7 +32,7 @@ Summoning Spells Calculator is a companion app for D&D 5e that provides quick ac
 - **Persistent State**: Automatically saves spell configurations and HP values across sessions
 - **Clean UI**: Intuitive interface with FontAwesome icons and Ionic components
 
-## 🛠️ Technologies
+## Technologies
 
 - **Ionic Framework** 8.0.0
 - **Angular** 20.0.0
@@ -41,7 +41,7 @@ Summoning Spells Calculator is a companion app for D&D 5e that provides quick ac
 - **RxJS** 7.8.0
 - **FontAwesome** 7.1.0
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
