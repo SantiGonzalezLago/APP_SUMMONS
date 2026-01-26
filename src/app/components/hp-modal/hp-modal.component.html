@@ -6,9 +6,14 @@
   <ng-template>
     <div class="hp-modal">
       <div class="hp-modal-content">
-        <ion-button expand="block" color="success" (click)="applyHeal()">
-          HEAL
-        </ion-button>
+        <div class="modal-buttons">
+          <ion-button expand="block" fill="outline" color="success" (click)="applyFullHeal()">
+            MAX HP
+          </ion-button>
+          <ion-button expand="block" color="success" (click)="applyHeal()" class="heal-button">
+            HEAL
+          </ion-button>
+        </div>
 
         <div class="input-container">
           <ion-button fill="outline" (click)="decreaseAmount()">-</ion-button>
@@ -26,6 +31,9 @@
         <div class="modal-buttons">
           <ion-button expand="block" color="danger" (click)="applyDamage()">
             DAMAGE
+          </ion-button>
+          <ion-button expand="block" fill="outline" color="dark" (click)="closeModal()">
+            CANCEL
           </ion-button>
         </div>
       </div>

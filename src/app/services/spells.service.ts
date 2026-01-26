@@ -26,6 +26,7 @@ export class SpellsService {
     { id: "steed", name: "Find Steed", level: 2, url: "/spell/steed" },
     { id: "homunculus", name: "Homunculus Servant", level: 2, url: "/spell/homunculus" },
     { id: "giantinsect", name: "Giant Insect", level: 4, url: "/spell/giantinsect" },
+    { id: "spiritofdeath", name: "Spirit of Death", level: 4, url: "/spell/spiritofdeath" },
   ];
 
   private favorites: string[] = [];

@@ -42,6 +42,10 @@ export const routes: Routes = [
     loadComponent: () => import('./spell/shadowspawn/shadowspawn.page').then((m) => m.ShadowspawnPage),
   },
   {
+    path: 'spell/spiritofdeath',
+    loadComponent: () => import('./spell/spiritofdeath/spiritofdeath.page').then((m) => m.SpiritOfDeathPage),
+  },
+  {
     path: 'spell/undead',
     loadComponent: () => import('./spell/undead/undead.page').then((m) => m.UndeadPage),
   },

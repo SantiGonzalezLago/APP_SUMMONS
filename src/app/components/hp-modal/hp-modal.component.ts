@@ -21,8 +21,8 @@ export class HpModalComponent {
   hpChangeAmount: number = 0;
 
   closeModal(): void {
-    this.hpChangeAmount = 0;
     this.close.emit();
+    this.hpChangeAmount = 0;
   }
 
   applyHeal(): void {
@@ -30,6 +30,11 @@ export class HpModalComponent {
       this.heal.emit(this.hpChangeAmount);
       this.hpChangeAmount = 0;
     }
+  }
+
+  applyFullHeal(): void {
+    this.heal.emit(this.maxHP);
+    this.hpChangeAmount = 0;
   }
 
   applyDamage(): void {

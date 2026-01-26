@@ -8,7 +8,7 @@
       <ion-back-button defaultHref="/home" (click)="goToHome()"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Summon Undead
+      Spirit of Death
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -16,25 +16,19 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Summon Undead</ion-title>
+      <ion-title size="large">Spirit of Death</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
     <div class="spell-info">
-      <p>Source: Player's Handbook (2024)</p>
-      <p><i>3rd level Necromancy</i></p>
+      <p>Source: The Book of Many Things</p>
+      <p><i>4th level Necromancy</i></p>
     </div>
 
     <ion-item lines="none">
       <ion-select [(ngModel)]="selectedLevel" (ionChange)="onLevelChange(selectedLevel)" interface="popover">
         <ion-select-option *ngFor="let level of levels" [value]="level">Level {{ level }}</ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-select [(ngModel)]="selectedType" (ionChange)="onTypeChange(selectedType)" interface="popover">
-        <ion-select-option *ngFor="let type of types" [value]="type">{{ type }}</ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -53,23 +47,21 @@
       <table class="table">
         <thead>
           <tr class="table-primary table-active">
-            <th colspan="6">Undead Spirit</th>
+            <th colspan="6">Reaper Spirit</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td colspan="6"><em>Medium undead</em></td>
+            <td colspan="6"><em>Medium undead, neutral</em></td>
           </tr>
           <tr>
-            <td colspan="6"><strong>Armor Class:</strong> {{ stats.ac }}</td>
+            <td colspan="6"><strong>Armor Class:</strong> {{ stats.ac }} (natural armor)</td>
           </tr>
           <tr>
             <td colspan="6"><strong>Hit Points:</strong> {{ stats.hp }}</td>
           </tr>
           <tr>
-            <td colspan="6">
-              <strong>Speed:</strong> 30 ft.<span *ngIf="isTypeActive('Ghostly')">, fly 40 ft. (hover)</span>
-            </td>
+            <td colspan="6"><strong>Speed:</strong> 30 ft., fly 30 ft. (hover)</td>
           </tr>
           <tr class="stat-row table-primary table-active">
             <th>STR</th>
@@ -77,9 +69,9 @@
             <th>CON</th>
           </tr>
           <tr class="stat-row">
-            <td>12 (+1)</td>
             <td>16 (+3)</td>
-            <td>15 (+2)</td>
+            <td>16 (+3)</td>
+            <td>16 (+3)</td>
           </tr>
           <tr class="stat-row table-primary table-active">
             <th>INT</th>
@@ -87,18 +79,18 @@
             <th>CHA</th>
           </tr>
           <tr class="stat-row">
-            <td>4 (-3)</td>
-            <td>10 (+0)</td>
-            <td>9 (-1)</td>
+            <td>16 (+3)</td>
+            <td>16 (+3)</td>
+            <td>16 (+3)</td>
           </tr>
           <tr>
             <td colspan="6"><strong>Damage Immunities:</strong> necrotic, poison</td>
           </tr>
           <tr>
-            <td colspan="6"><strong>Condition Immunities:</strong> exhaustion, frightened, paralyzed, poisoned</td>
+            <td colspan="6"><strong>Condition Immunities:</strong> charmed, exhaustion, frightened, paralyzed, poisoned</td>
           </tr>
           <tr>
-            <td colspan="6"><strong>Senses:</strong> darkvision 60 ft., passive Perception 10</td>
+            <td colspan="6"><strong>Senses:</strong> darkvision 60 ft., passive Perception 13</td>
           </tr>
           <tr>
             <td colspan="6"><strong>Languages:</strong> understands the languages you speak</td>
@@ -109,26 +101,23 @@
           <tr>
             <td colspan="6"><strong>Proficiency Bonus:</strong> equals your bonus</td>
           </tr>
-          <tr *ngIf="isTypeActive('Putrid')">
-            <td colspan="6"><strong><em>Festering Aura. </em></strong><em>Constitution Saving Throw:</em> DC equals your spell save DC, any creature (other than you) that starts its turn within a 5-foot Emanation originating from the spirit. <em>Failure:</em> The creature has the Poisoned condition until the start of its next turn.</td>
-          </tr>
-          <tr *ngIf="isTypeActive('Ghostly')">
-            <td colspan="6"><strong><em>Incorporeal Passage. </em></strong>The spirit can move through other creatures and objects as if they were difficult terrain. If it ends its turn inside an object, it is shunted to the nearest unoccupied space and takes 1d10 force damage for every 5 feet traveled.</td>
+          <tr>
+            <td colspan="6"><strong><em>Incorporeal Movement. </em></strong>The reaper can move through other creatures and objects as if they were difficult terrain. If it ends its turn inside an object, it is shunted to the nearest unoccupied space and takes 1d10 force damage for every 5 feet traveled.</td>
           </tr>
           <tr class="table-primary table-active">
             <th colspan="6">Actions</th>
           </tr>
           <tr>
-            <td colspan="6"><strong><em>Multiattack. </em></strong>The spirit makes {{ stats.multiattackCount }} attacks.</td>
+            <td colspan="6"><strong><em>Multiattack. </em></strong>The spirit makes {{ stats.multiattackCount }} Reaping Scythe attacks.</td>
           </tr>
-          <tr *ngIf="isTypeActive('Ghostly')">
-            <td colspan="6"><strong><em>Deathly Touch. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft., one creature. <em>Hit:</em> {{ stats.deathlyTouchDamage }} damage, and the target has the Frightened condition until the end of its next turn.</td>
+          <tr>
+            <td colspan="6"><strong><em>Reaping Scythe. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit (with advantage), reach 5 ft., one target. <em>Hit:</em> {{ stats.reapingScytheDamage }} necrotic damage.</td>
           </tr>
-          <tr *ngIf="isTypeActive('Skeletal')">
-            <td colspan="6"><strong><em>Grave Bolt. </em></strong><em>Ranged Spell Attack:</em> your spell attack modifier to hit, range 150 ft., one target. <em>Hit:</em> {{ stats.graveBoltDamage }} damage.</td>
+          <tr class="table-primary table-active">
+            <th colspan="6">Bonus Actions</th>
           </tr>
-          <tr *ngIf="isTypeActive('Putrid')">
-            <td colspan="6"><strong><em>Rotting Claw. </em></strong><em>Melee Weapon Attack:</em> your spell attack modifier to hit, reach 5 ft., one target. <em>Hit:</em> {{ stats.rottingClawDamage }} damage. If the target has the Poisoned condition, it has the Paralyzed condition until the end of its next turn.</td>
+          <tr>
+            <td colspan="6"><strong><em>Haunt Creature. </em></strong>The spirit targets a creature it can see within 10 feet of itself and begins haunting it. While the target is haunted, you and the spirit sense the direction and distance to the target if it is on the same plane of existence as you. If the target starts its turn within 10 feet of the spirit, it must succeed on a Wisdom saving throw against your spell save DC or it is frightened until the start of its next turn. The target remains haunted until it dies, the spirit disappears, or the spirit uses this action again.</td>
           </tr>
         </tbody>
       </table>

@@ -12,31 +12,30 @@ import { star } from 'ionicons/icons';
 
 addIcons({ star });
 
-interface SteedStats {
+interface ReaperStats {
   ac: number;
   hp: number;
-  speed: string;
-  slamDamage: string;
+  multiattackCount: number;
+  reapingScytheDamage: string;
 }
 
 @Component({
-  selector: 'app-steed',
-  templateUrl: 'steed.page.html',
-  styleUrls: ['steed.page.scss'],
+  selector: 'app-spiritofdeath',
+  templateUrl: 'spiritofdeath.page.html',
+  styleUrls: ['spiritofdeath.page.scss'],
   imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonBackButton, IonButtons, IonMenuButton, IonSelect, IonSelectOption, IonItem, IonIcon, HpModalComponent],
 })
-export class SteedPage implements OnInit {
-  selectedLevel = 2;
-  selectedType: string = 'Celestial';
-  stats: SteedStats | null = null;
+export class SpiritOfDeathPage implements OnInit {
+  selectedLevel = 4;
+  selectedType = 'Reaper';
+  stats: ReaperStats | null = null;
   currentHP = 0;
   maxHP = 0;
   isHPModalOpen = false;
 
-  levels: number[] = [2, 3, 4, 5, 6, 7, 8, 9];
-  types: string[] = ['Celestial', 'Fey', 'Fiend'];
+  levels: number[] = [4, 5, 6, 7, 8, 9];
 
-  private spellId = 'steed';
+  private spellId = 'spiritofdeath';
   private selectionsService = inject(SpellSelectionsService);
   private hpTracker = inject(HpTrackerService);
   private spellsService = inject(SpellsService);
@@ -59,35 +58,13 @@ export class SteedPage implements OnInit {
     this.updateMaxHP();
   }
 
-  onTypeChange(type: string): void {
-    this.selectedType = type;
-    this.selectionsService.setSelection(this.spellId, this.selectedLevel, this.selectedType);
-    this.updateStats();
-    this.updateMaxHP();
-  }
-
   private updateStats(): void {
-    const ac = 10 + this.selectedLevel;
-    const hp = this.selectedLevel * 10 + 5;
-    const baseSpeed = '60 ft.';
-    const hasFly = this.selectedLevel >= 4;
-    const speed = hasFly ? baseSpeed + ', fly 60 ft.' : baseSpeed;
-    const slamDamage = `1d8 + ${this.selectedLevel} ${this.getDamageType().toLowerCase()}`;
+    const ac = 11 + this.selectedLevel;
+    const hp = 40 + 10 * (this.selectedLevel - 4);
+    const multiattackCount = Math.max(1, Math.floor(this.selectedLevel / 2));
+    const reapingScytheDamage = `1d8 + ${3 + this.selectedLevel} necrotic`;
 
-    this.stats = { ac, hp, speed, slamDamage };
-  }
-
-  private getDamageType(): string {
-    switch (this.selectedType) {
-      case 'Celestial':
-        return 'Radiant';
-      case 'Fey':
-        return 'Psychic';
-      case 'Fiend':
-        return 'Necrotic';
-      default:
-        return 'Radiant';
-    }
+    this.stats = { ac, hp, multiattackCount, reapingScytheDamage };
   }
 
   private loadHP(): void {
@@ -141,10 +118,6 @@ export class SteedPage implements OnInit {
 
   getHPPercentage(): number {
     return this.maxHP > 0 ? (this.currentHP / this.maxHP) * 100 : 0;
-  }
-
-  isTypeActive(type: string): boolean {
-    return this.selectedType === type;
   }
 
   isFavorite(): boolean {

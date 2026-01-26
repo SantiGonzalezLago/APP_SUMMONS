@@ -65,6 +65,7 @@ export class HomePage implements OnInit, OnDestroy {
       'fey': 'fa-leaf',
       'fiend': 'fa-fire',
       'shadowspawn': 'fa-moon',
+      'spiritofdeath': 'fa-skull-crossbones',
       'undead': 'fa-skull',
       'steed': 'fa-horse',
       'homunculus': 'fa-screwdriver-wrench',
