@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { IonApp, IonRouterOutlet, IonMenu, IonContent, IonList, IonItem, IonLabel, IonMenuButton, IonIcon, Platform } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet, IonMenu, IonContent, IonList, IonItem, IonLabel, IonIcon, Platform } from '@ionic/angular/standalone';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { addIcons } from 'ionicons';
@@ -18,7 +18,7 @@ addIcons({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  imports: [IonApp, IonRouterOutlet, IonMenu, IonContent, IonList, IonItem, IonLabel, IonMenuButton, IonIcon, CommonModule, RouterLink],
+  imports: [IonApp, IonRouterOutlet, IonMenu, IonContent, IonList, IonItem, IonLabel, IonIcon, CommonModule, RouterLink],
 })
 export class AppComponent implements OnInit, OnDestroy {
   spells: Spell[] = [];

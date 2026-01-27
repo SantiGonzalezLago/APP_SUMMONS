@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonIcon, IonButtons, IonMenuButton, IonBadge } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonIcon, IonButtons, IonMenuButton, IonBadge } from '@ionic/angular/standalone';
 import { SpellsService, Spell } from '../services/spells.service';
 import { addIcons } from 'ionicons';
 import { star, starOutline } from 'ionicons/icons';
@@ -17,7 +17,7 @@ addIcons({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonIcon, IonButtons, IonMenuButton, IonBadge],
+  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonIcon, IonButtons, IonMenuButton, IonBadge],
 })
 export class HomePage implements OnInit, OnDestroy {
   spells: Spell[] = [];
