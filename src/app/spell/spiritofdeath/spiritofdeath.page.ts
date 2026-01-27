@@ -6,6 +6,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonBackButton, IonButtons,
 import { SpellSelectionsService } from '../../services/spell-selections.service';
 import { HpTrackerService } from '../../services/hp-tracker.service';
 import { HpModalComponent } from '../../components/hp-modal/hp-modal.component';
+import { SourceComponent } from '../../components/source/source.component';
 import { SpellsService } from '../../services/spells.service';
 import { addIcons } from 'ionicons';
 import { star } from 'ionicons/icons';
@@ -23,7 +24,7 @@ interface ReaperStats {
   selector: 'app-spiritofdeath',
   templateUrl: 'spiritofdeath.page.html',
   styleUrls: ['spiritofdeath.page.scss'],
-  imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonBackButton, IonButtons, IonMenuButton, IonSelect, IonSelectOption, IonItem, IonIcon, HpModalComponent],
+  imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonBackButton, IonButtons, IonMenuButton, IonSelect, IonSelectOption, IonItem, IonIcon, HpModalComponent, SourceComponent],
 })
 export class SpiritOfDeathPage implements OnInit {
   selectedLevel = 4;

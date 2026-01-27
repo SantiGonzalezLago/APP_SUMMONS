@@ -61,3 +61,18 @@ p {
   color: inherit;
 }
 
+.companion-text {
+  font-weight: bold;
+  color: #fff !important;
+  margin-bottom: 8px !important;
+}
+
+.purchase-link {
+  margin-bottom: 12px !important;
+}
+
+.purchase-link a {
+  color: var(--ion-color-primary);
+  text-decoration: underline;
+}
+
