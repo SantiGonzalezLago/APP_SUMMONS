@@ -1,40 +1,4 @@
 <ion-app>
-  <ion-menu side="start" menuId="main-menu" contentId="main" #menu>
-    <ion-content [fullscreen]="true">
-      <div class="menu-header">
-        <h1 class="app-title">{{ appName }}</h1>
-        <p class="app-version">v{{ appVersion }}</p>
-      </div>
-      <ion-list lines="none">
-        <div class="spell-list-wrapper">
-          <ion-item *ngFor="let spell of spells" [routerLink]="spell.url" button (click)="menu.close()" lines="none">
-            <ion-label>
-              <h2>{{ spell.name }}</h2>
-              <p>{{ spell.level }}{{ spell.level === 1 ? 'st' : spell.level === 2 ? 'nd' : spell.level === 3 ? 'rd' : 'th' }} level spell</p>
-            </ion-label>
-            <ion-icon
-              *ngIf="isFavorite(spell.id)"
-              slot="end"
-              name="star"
-              class="favorite-icon">
-            </ion-icon>
-          </ion-item>
-        </div>
-      </ion-list>
-      <div class="menu-footer">
-        <p class="companion-text">A fan-made companion app for Dungeons & Dragons</p>
-        <p class="purchase-link">
-          <a href="https://marketplace.dndbeyond.com/rulebooks" target="_blank" rel="noopener noreferrer">
-            Access official D&D rulebooks on D&D Beyond
-          </a>
-        </p>
-        <p>
-          Dungeons & Dragons is a trademark of Wizards of the Coast.
-          This project is not affiliated with, endorsed, sponsored, or approved by Wizards of the Coast.
-        </p>
-      </div>
-    </ion-content>
-  </ion-menu>
-
+  <main-menu></main-menu>
   <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

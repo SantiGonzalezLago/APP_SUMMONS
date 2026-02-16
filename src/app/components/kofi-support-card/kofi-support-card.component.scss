@@ -1,0 +1,45 @@
+.kofi-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  // border: 1px solid #649953;
+  background: linear-gradient(135deg, #07230a, #649953);
+  text-decoration: none;
+}
+
+.kofi-cta-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.kofi-cta-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.kofi-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  color: #c0c0c0;
+  opacity: 0.95;
+}
+
+.kofi-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.kofi-avatar {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}

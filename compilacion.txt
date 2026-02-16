@@ -1,5 +1,8 @@
 ionic build
 npx cap sync android
+
+Actualizar versión en android/app/build.gradle
+
 cd android
 ./gradlew clean
 ./gradlew assembleRelease > /android/app/build/outputs/apk/release/app-release.apk
