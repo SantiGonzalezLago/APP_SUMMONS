@@ -1,5 +1,5 @@
 ion-content {
-  --background: linear-gradient(#2d2d2d 0%, #1a1a1a 100%);
+  --background: var(--app-spell-gradient);
 }
 
 #container {
@@ -9,7 +9,7 @@ ion-content {
 #container p {
   font-size: 16px;
   line-height: 22px;
-  color: #8c8c8c;
+  color: var(--app-text-secondary);
   margin: 0;
 }
 
@@ -29,10 +29,10 @@ ion-content {
 .hp-bar-container {
   position: relative;
   height: 40px;
-  background-color: #333;
+  background-color: var(--app-surface-bg);
   border-radius: 8px;
   overflow: hidden;
-  border: 2px solid #444;
+  border: 2px solid var(--app-border-color);
 }
 
 .hp-bar {
@@ -62,11 +62,11 @@ ion-content {
 
 .stats-table {
   margin-top: 20px;
-  border: 3px solid #444;
+  border: 3px solid var(--app-border-color);
   border-radius: 10px;
   overflow: hidden;
-  background-color: #2a2a2a;
-  color: #fff;
+  background-color: var(--app-card-bg);
+  color: var(--app-text-primary);
 }
 
 .table {
@@ -80,7 +80,7 @@ ion-content {
 .table td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--app-border-color);
 }
 
 .table tbody tr:last-child td {
@@ -88,7 +88,7 @@ ion-content {
 }
 
 .table-primary {
-  background-color: #3a3a3a;
+  background-color: var(--app-table-header);
 }
 
 .table-active {
@@ -100,12 +100,9 @@ ion-content {
   letter-spacing: 1px;
 }
 
-.table-active th {
-  border-bottom: 1px solid #980001;
-}
-
 .stat-row {
-  background-color: #4a4a4a;
+  background-color: var(--app-table-row-alt);
+  color: var(--app-text-primary);
 }
 
 .stat-row th {
@@ -120,7 +117,7 @@ ion-content {
   text-align: center;
   font-size: 16px;
   font-weight: bold;
-  border-bottom: 2px solid #980001;
+  border-bottom: 2px solid #580000;
 }
 
 .header-star {

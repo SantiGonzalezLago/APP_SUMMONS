@@ -1,2 +1,45 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+// ── App custom theme variables ───────────────────────────────────────────────
+// Light mode defaults
+:root {
+  --app-page-gradient: linear-gradient(180deg, #e8e8e8 0%, #f0f0f0 50%, #f5e8e8 100%);
+  --app-spell-gradient: linear-gradient(#f5f5f5 0%, #eeeeee 100%);
+  --app-card-gradient: linear-gradient(135deg, #f8f8f8 0%, #eeeeee 100%);
+  --app-card-bg: #ffffff;
+  --app-surface-bg: #e0e0e0;
+  --app-border-color: #cccccc;
+  --app-menu-header-bg: #f0f0f0;
+  --app-text-primary: #111111;
+  --app-text-secondary: #666666;
+  --app-icon-color: #444444;
+  --app-badge-bg: #dddddd;
+  --app-badge-color: #333333;
+  --app-input-bg: #f5f5f5;
+  --app-table-header: #e8e8e8;
+  --app-table-row-alt: #dcdcdc;
+  --app-footer-bg: #f0f0f0;
+  --app-kofi-border: #4f7a54;
+}
+
+// Dark mode overrides
+:root.ion-palette-dark {
+  --app-page-gradient: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 50%, #300000 100%);
+  --app-spell-gradient: linear-gradient(#2d2d2d 0%, #1a1a1a 100%);
+  --app-card-gradient: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+  --app-card-bg: #2a2a2a;
+  --app-surface-bg: #333333;
+  --app-border-color: #444444;
+  --app-menu-header-bg: #212529;
+  --app-text-primary: #ffffff;
+  --app-text-secondary: #8c8c8c;
+  --app-icon-color: #e0e0e0;
+  --app-badge-bg: #444444;
+  --app-badge-color: #e0e0e0;
+  --app-input-bg: #2a2a2a;
+  --app-table-header: #3a3a3a;
+  --app-table-row-alt: #4a4a4a;
+  --app-footer-bg: #212529;
+  --app-kofi-border: #ffffff;
+}

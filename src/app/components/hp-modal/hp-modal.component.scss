@@ -1,6 +1,6 @@
 .hp-modal {
   padding: 16px;
-  background: #212529;
+  background: var(--app-menu-header-bg);
   border-top: 1px solid #980001;
 }
 
@@ -18,7 +18,7 @@
 
 .input-item {
   flex: 1;
-  --background: #f5f5f5;
+  --background: var(--app-input-bg);
   --border-radius: 8px;
   --min-height: 44px;
 }
@@ -27,7 +27,7 @@
   text-align: center;
   font-size: 24px;
   font-weight: bold;
-  --color: #000;
+  --color: var(--app-text-primary);
 }
 
 .modal-buttons {

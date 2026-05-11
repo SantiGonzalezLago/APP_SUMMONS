@@ -1,8 +1,8 @@
 <ion-menu side="start" menuId="main-menu" contentId="main" #menu>
   <ion-content [fullscreen]="true">
     <div class="menu-header">
-      <h1 class="app-title">{{ appName }}</h1>
-      <p class="app-version">v{{ appVersion }}</p>
+      <h1 class="app-title"><b>{{ appName }}</b></h1>
+      <p class="app-version"><i>v{{ appVersion }}</i></p>
     </div>
     <ion-list lines="none">
       <div class="spell-list-wrapper">
@@ -17,6 +17,13 @@
             name="star"
             class="favorite-icon">
           </ion-icon>
+        </ion-item>
+      </div>
+    </ion-list>
+    <ion-list lines="none">
+      <div class="appearance-wrapper">
+        <ion-item button (click)="openThemeSelector()">
+          <ion-label>Appearance</ion-label>
         </ion-item>
       </div>
     </ion-list>
