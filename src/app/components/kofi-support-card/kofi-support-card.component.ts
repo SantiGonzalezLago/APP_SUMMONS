@@ -10,7 +10,7 @@ import { ConfigurationService } from '../../services/configuration.service';
   imports: [CommonModule],
 })
 export class KofiSupportCardComponent {
-  @Input() title: string = 'Support me on Ko-fi!';
+  @Input() title: string = 'Buy me a coffee!';
   @Input() avatarSrc: string = 'assets/images/avatar.png';
   @Input() kofiIconSrc: string = 'assets/images/kofi.png';
 
