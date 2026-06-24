@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ConfigurationService {
-  private readonly APP_VERSION = '1.0.5';
+  private readonly APP_VERSION = '1.0.7';
   private readonly APP_NAME = 'Summoning Spells Calculator';
   private readonly LINK_KOFI = 'ko-fi.com/santigl';
 

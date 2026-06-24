@@ -30,6 +30,10 @@ export class SourceComponent implements OnInit {
     'bomt' : {
       title: 'The Book of Many Things',
       url: 'https://marketplace.dndbeyond.com/category/SRC-00109'
+    },
+    'tcoe' : {
+      title: "Tasha's Cauldron of Everything",
+      url: 'https://marketplace.dndbeyond.com/category/SRC-00067'
     }
   };
 

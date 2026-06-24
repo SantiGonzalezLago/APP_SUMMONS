@@ -69,7 +69,7 @@ export class FeyPage implements OnInit {
 
   private updateStats(): void {
     const ac = 12 + this.selectedLevel;
-    const hp = this.selectedLevel * 10 - 10;
+    const hp = this.selectedLevel * 10 + 0;
     const multiattackCount = Math.max(1, Math.floor(this.selectedLevel / 2));
     const feyBladeDamage = `2d6 + ${3 + this.selectedLevel}`;
 

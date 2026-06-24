@@ -69,7 +69,7 @@ export class ElementalPage implements OnInit {
 
   private updateStats(): void {
     const ac = 11 + this.selectedLevel;
-    const hp = this.selectedLevel * 10 - 10;
+    const hp = this.selectedLevel * 10 + 10;
     const multiattackCount = Math.max(1, Math.floor(this.selectedLevel / 2));
 
     const damageTypeMap: { [key: string]: string } = {
